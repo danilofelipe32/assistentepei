@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assistente PEI com IA</title>
+    <meta name="description" content="Uma aplicação web PWA para auxiliar educadores e profissionais da educação na elaboração de Planos Educacionais Individualizados (PEI), utilizando IA para gerar conteúdo, analisar metas e sugerir atividades.">
+
+    <!-- PWA and Mobile Optimization -->
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="theme-color" content="#5d3eef" />
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB8CAYAAACb3UfBAAAABmJLR0QA/wD/AP+gvaeTAAADU0lEQVR4nO3bXW7bRhAAYbWrR5o0qZNH6BOk3qFPUHoFTVEgqSIlBVDH+g59gN5BbqAnSH2K9AmdhJSQJknaNlV8kQIJQzY2Yn89/5L1hDweD/cBAAAAAAAAAAAAAAAAAAD/R0fHPTs+Pu6mUqm8jDShlOqFQiH/2bFjx592uVx+HnFCSqkRjUbzNxqN/jXjR5RSMR6P32g0+r+a8SMIAh6Phx/1WhsXhsGj0Yj1et39Sj9SShEGBgLgPA+u6wIAeJ7H8Xisfr9v8bJtG8dxYFkWz/M8z+t2u3bZtm1ZlvP5nPf7/Z6X9Ho9RVEAhmGapsvler0eAFmWgWEYhmGaptVqtaVSiWEYDofDERf6S6kUhUKBqqrruqIoCoVCyWSSYRgURcFxHBaLBYqi4Ha7NpvNyWSSdDpNJpPB6XSCYRgymQxFUcxmMyzLAgDs93tZlkmlUpZlyel0XpcX+ksptdvt2m63VquVqqr3+/3JZFIAYLfbzWazPM/P53PL5VJV1f1+3+PxWJZlhUKhWq2u63q5XJomcZpS6nK5bDAYxHHcbrcDAK7rHMdxXddpmqbT6dTr9QCApmlKpRIURcFxnGaz+bxaxE8pVSqVZFFUVVWr1UgpdVqtVqtVkiStVisAwHEcpVJJURSv17vdbtvtdgCAYRigKIqmadM0raqqLMvv95/Xi/glHo/ncrkqlUpZlp1OpyzLZrOZz+fL5XK9Xt/v9y+XSy/Poy/0k1Kpm5ububk5m80mk8nIZDJVVRVF6ff73W43RVEURclkMplMBgAsFguCIGVZBEGQz+eLxWLz+Xy1Wp2X9EuKommaqqryPJ/NZkmlUplMJgDAZrPB6XSCILjdbtM0zefzUqlUAOD3+xVFyWazmqbhOE4URQDAbreD4zjDMEEQBEFQXddFUczncxzH3+/3eZ6LxWLz+VzX9S/k/2JKpVKpFAqF6XTadDodDAZFUbxeLzAYDFKpFGVZBEHA6/XCMAwnk1+vI36KoiAIaJomlUqtVqvVajVFUdI0DQAsy8LzPK7rgiCgKIriODzPCwD4fD583/d6vZZlKRaLxXq9LpVKpVIJgB+f/gMAAAAAAAAAAAAAAAAA4D/6D7Wd02u0D55rAAAAAElFTkSuQmCC">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB8CAYAAACb3UfBAAAABmJLR0QA/wD/AP+gvaeTAAADU0lEQVR4nO3bXW7bRhAAYbWrR5o0qZNH6BOk3qFPUHoFTVEgqSIlBVDH+g59gN5BbqAnSH2K9AmdhJSQJknaNlV8kQIJQzY2Yn89/5L1hDweD/cBAAAAAAAAAAAAAAAAAAD/R0fHPTs+Pu6mUqm8jDShlOqFQiH/2bFjx592uVx+HnFCSqkRjUbzNxqN/jXjR5RSMR6P32g0+r+a8SMIAh6Phx/1WhsXhsGj0Yj1et39Sj9SShEGBgLgPA+u6wIAeJ7H8Xisfr9v8bJtG8dxYFkWz/M8z+t2u3bZtm1ZlvP5nPf7/Z6X9Ho9RVEAhmGapsvler0eAFmWgWEYhmGaptVqtaVSiWEYDofDERf6S6kUhUKBqqrruqIoCoVCyWSSYRgURcFxHBaLBYqi4Ha7NpvNyWSSdDpNJpPB6XSCYRgymQxFUcxmMyzLAgDs93tZlkmlUpZlyel0XpcX+ksptdvt2m63VquVqqr3+/3JZFIAYLfbzWazPM/P53PL5VJV1f1+3+PxWJZlhUKhWq2u63q5XJomcZpS6nK5bDAYxHHcbrcDAK7rHMdxXddpmqbT6dTr9QCApmlKpRIURcFxnGaz+bxaxE8pVSqVZFFUVVWr1UgpdVqtVqtVkiStVisAwHEcpVJJURSv17vdbtvtdgCAYRigKIqmadM0raqqLMvv95/Xi/glHo/ncrkqlUpZlp1OpyzLZrOZz+fL5XK9Xt/v9y+XSy/Poy/0k1Kpm5ububk5m80mk8nIZDJVVRVF6ff73W43RVEURclkMplMBgAsFguCIGVZBEGQz+eLxWLz+Xy1Wp2X9EuKommaqqryPJ/NZkmlUplMJgDAZrPB6XSCILjdbtM0zefzUqlUAOD3+xVFyWazmqbhOE4URQDAbreD4zjDMEEQBEFQXddFUczncxzH3+/3eZ6LxWLz+VzX9S/k/2JKpVKpFAqF6XTadDodDAZFUbxeLzAYDFKpFGVZBEHA6/XCMAwnk1+vI36KoiAIaJomlUqtVqvVajVFUdI0DQAsy8LzPK7rgiCgKIriODzPCwD4fD583/d6vZZlKRaLxXq9LpVKpVIJgB+f/gMAAAAAAAAAAAAAAAAA4D/6D7Wd02u0D55rAAAAAElFTkSuQmCC">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Assistente PEI">
+
+    <!-- Styles and Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- RAG File Processing Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.7.0/mammoth.browser.min.js"></script>
+    <!-- FIX: Switched to a more reliable CDN (jsdelivr) to prevent PDF.js loading issues -->
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.js"></script>
+    
+
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "zustand": "https://aistudiocdn.com/zustand@^4.5.4",
+    "@google/genai": "https://esm.run/@google/genai"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-100">
+    <noscript>Esta aplicação requer JavaScript para funcionar.</noscript>
+    <div id="root"></div>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
+  </body>
+</html>
