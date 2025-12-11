@@ -11,9 +11,19 @@ export interface Part {
 }
 
 // Initialize Gemini API Client
-// A chave deve vir da variável de ambiente da Vercel (process.env.API_KEY)
-// Assumes process.env is polyfilled or replaced during build/deployment on Vercel.
-const apiKey = process.env.API_KEY;
+// Safely access process.env to avoid crashes in browser environments
+const getApiKey = () => {
+    try {
+        if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+            return process.env.API_KEY;
+        }
+    } catch (e) {
+        console.warn("Could not access process.env.API_KEY");
+    }
+    return '';
+};
+
+const apiKey = getApiKey();
 
 const ai = new GoogleGenAI({ apiKey: apiKey || 'MISSING_API_KEY' });
 
@@ -83,7 +93,7 @@ export const callGenerativeAI = async (prompt: string | Part[]): Promise<string>
         
         if (error instanceof Error) {
             // Handle common error cases
-            if (error.message.includes("API key")) {
+            if (error.message.includes("API key") || error.message.includes("MISSING_API_KEY")) {
                 errorMessage = "Chave de API inválida ou não configurada.";
             } else if (error.message.includes("429")) {
                 errorMessage = "Limite de requisições excedido. Tente novamente em alguns instantes.";

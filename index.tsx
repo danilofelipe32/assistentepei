@@ -2,6 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 
+// --- Polyfill for process.env in browser environments ---
+// This prevents "ReferenceError: process is not defined" when running via Babel Standalone
+// This is critical for Vercel deployments relying on browser-side transpilation.
+if (typeof process === 'undefined') {
+    (window as any).process = { env: {} };
+}
+
 // Declare global libraries loaded via script tags for TypeScript
 declare const pdfjsLib: any;
 
